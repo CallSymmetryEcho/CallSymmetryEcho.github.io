@@ -1,0 +1,540 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个 | Bin|Brain|Bin</title><meta name="keywords" content="linux"><meta name="author" content="Bin Lian"><meta name="copyright" content="Bin Lian"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个"><meta name="application-name" content="如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个"><meta property="og:url" content="http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/index.html"><meta property="og:site_name" content="Bin|Brain|Bin"><meta property="og:description" content="关键是 在绝对路径命令面前加上&amp;#x2F;lib&amp;#x2F;x86_64-linux-gnu&amp;#x2F;ld-2.28.so 即手动预加载libc文件，然后基本上的命令都可以用  一，unlink 了 其中一个文件，而且你恰好开着终端并且挂着suOkk  你基本没啥大问题，别退该终端就行 现在先喘"><meta property="og:locale" content="en"><meta property="og:image" content="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png"><meta property="article:author" content="Bin Lian"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png"><meta name="description" content="关键是 在绝对路径命令面前加上&amp;#x2F;lib&amp;#x2F;x86_64-linux-gnu&amp;#x2F;ld-2.28.so 即手动预加载libc文件，然后基本上的命令都可以用  一，unlink 了 其中一个文件，而且你恰好开着终端并且挂着suOkk  你基本没啥大问题，别退该终端就行 现在先喘"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//static.cloudflareinsights.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@1.0.17/lib/assets/font-awesome-animation.min.css"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script defer="defer" data-pjax="data-pjax" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;D3kKDJiPttJDVWdhPsNPds_8djzP7Q5CFlbyF_dA&quot;}"></script><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: undefined,
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w Come back soon - we miss you already!","backTitle":"♪(^∇^*)Welcome Back！"},
+  LA51: {"enable":true,"ck":"3KngAPIX2BHSInNE","LingQueMonitorID":"3KngOdx82vNW79v3"},
+  greetingBox: undefined,
+  twikooEnvId: 'https://twikoo.bin-lian.me/',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":2},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: {"mode":"api","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":["🤖️ ROS, Chem Automation","🔍 ML&DL 4 Science","🏠 Nano Synthesis","🔨 DFT,MD,FDM Multiscale simulation","Solidworks, 3D modeling 🛠️","Down-to-earth action taker 🏃","Trying to use AI to make this world better🧱","Be Humble ☔️"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Bin Lian","link":"Link: ","source":"Source: Bin|Brain|Bin","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: {"enable":true,"delay":100,"shiftDelay":200},
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Bin|Brain|Bin',
+  title: '如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个',
+  postAI: '',
+  pageFillDescription: '一unlink 了 其中一个文件而且你恰好开着终端并且挂着su, 二 普通用户情况下没挂su, 三整个lib都删了或者一二解决不了的只好上大杀器用live cd 救一救, 不要慌 不麻烦, 四丢失了文件关键是在绝对路径命令面前加上即手动预加载文件然后基本上的命令都可以用一了其中一个文件而且你恰好开着终端并且挂着你基本没啥大问题别退该终端就行现在先喘口气喝口水这是最佳情况这个时候嘞给人家正常挂回去就行了注意我们刚开始要预先加载文件回车哦了对于具体文件在你系统是什么就看你系统了一般是或者链接着的那个文件二普通用户情况下没挂抽卡环节就看你平常用不用了给人家正常挂回去就行了注意我们刚开始要预先加载文件正常挂输入密码看看行不行验证成功的话回到步骤一结束验证失败往下看一般是鉴定故障应该用不了会报错就不用试了三整个都删了或者一二解决不了的只好上大杀器用救一救不要慌不麻烦先准备个盘能装下系统镜像的随便找个带的镜像如果不是删了整个库这个级别的话如果是下完全一样的系统镜像推荐用的镜像好下到自己带了功能方便用随便的启动盘制造工具把镜像烧进去烧好了进换一下启动项给盘排第一点好了你现在应该已经可以用系统了然后我们恢复软件要把地址挂对不然开机照样就是一个所以要把装我们系统的硬盘暂时挂成步骤如下找一下你放系统的那个盘假如你的盘叫地址为接下来到锚点切换一下到该目录好这个时候你应该变成在该目录的用户了回到步骤结束强调一下不要直接在你的盘的中操作这样建立出来的链接地址人家读不懂开机继续四丢失了文件参考三但是镜像用完全相同系统的镜像有些系统就集成了所以下原始镜像也可以然后把丢失的文件全部到你丢的地方就结束希望你的系统已经回来了无关的科普是运行时库的软链接而系统几乎所有程序都依赖运行时库程序启动和运行时是根据软链接找到库删除将导致系统的几乎所有程序不能工作每个文件有它支持的版本可以通过查看一定要选择这条命令列出的版本如果程序编译的时候链接的库版本不在程序运行环境下的库支持的版本之内也会报错于是系统的所有命令等等都无法使用了',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-06 01:38:02',
+  postMainColor: '',
+  language: {
+    default: '简体中文',
+    available: ["简体中文","繁体中文","English"]
+    },
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">Website</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://www.bin-lian.me" title="My homepage"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png" alt="My homepage"/><span class="back-menu-item-text">My homepage</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">Front-end Project</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://lskypro.bin-lian.me/" title="Image Bed for Bin"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/677393fd15929.png" alt="Image Bed for Bin"/><span class="back-menu-item-text">Image Bed for Bin</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">Bin|Brain|Bin</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> Posts</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> Archives</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> Categories</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> About Me</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> About Me</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> Life News</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> Random Post</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> Personal</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> Music</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> Album</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/67738f609ac4d.jpg" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://lskypro.bin-lian.me/i/2024/12/31/67738f609ac4d.jpg"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/67738f5e864b9.jpg" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://lskypro.bin-lian.me/i/2024/12/31/67738f5e864b9.jpg"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="https://buymeacoffee.com/bin_lian" target="_blank"><img class="post-qr-code-img" alt="Buy me A coffee" src="https://lskypro.bin-lian.me/i/2024/12/31/677391ee18dba.png"/></a><div class="post-qr-code-desc">Buy me A coffee</div></li><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/6773928a646a1.jpg" target="_blank"><img class="post-qr-code-img" alt="Paypal" src="https://lskypro.bin-lian.me/i/2024/12/31/6773928a646a1.jpg"/></a><div class="post-qr-code-desc">Paypal</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/%E8%AE%BA%E8%AF%AD/" style="font-size: 1.05rem;">#论语<sup>1</sup></a><a href="/tags/AI-%E8%BE%85%E5%8A%A9%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">AI 辅助学习<sup>1</sup></a><a href="/tags/ProjChatGPT/" style="font-size: 1.05rem;">ProjChatGPT<sup>1</sup></a><a href="/tags/Projects/" style="font-size: 1.05rem;">Projects<sup>1</sup></a><a href="/tags/docker/" style="font-size: 1.05rem;">docker<sup>4</sup></a><a href="/tags/hexo/" style="font-size: 1.05rem;">hexo<sup>4</sup></a><a href="/tags/linux/" style="font-size: 1.05rem;">linux<sup>1</sup></a><a href="/tags/robotic/" style="font-size: 1.05rem;">robotic<sup>1</sup></a><a href="/tags/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%A7%8B/" style="font-size: 1.05rem;">为什么开始<sup>1</sup></a><a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 1.05rem;">内网穿透<sup>1</sup></a><a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 1.05rem;">图床<sup>1</sup></a><a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 1.05rem;">小技巧<sup>1</sup></a><a href="/tags/%E6%8C%87%E5%BC%B9%E7%BB%83%E4%B9%A0/" style="font-size: 1.05rem;">指弹练习<sup>1</sup></a><a href="/tags/%E8%A7%85%E9%A3%9F%E8%AE%B0/" style="font-size: 1.05rem;">觅食记<sup>1</sup></a><a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 1.05rem;">读书笔记<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">January 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">December 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/02/"><span class="card-archive-list-date">February 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div><div class="console-btn-item" id="consoleKeyboard" onclick="anzhiyu.keyboardToggle()" title="快捷键开关"><a class="keyboard-switch"><i class="anzhiyufont anzhiyu-icon-keyboard"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创|Original creation</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/" itemprop="url">Linux</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/linux/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>linux</span></a></span></div></div><h1 class="post-title" itemprop="name headline">如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-02-23T03:21:08.000Z" title="Created 2024-02-22 21:21:08">2024-02-22</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-01-06T07:38:02.305Z" title="Updated 2025-01-06 01:38:02">2025-01-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span id="" data-flag-title="如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">Post View:</span><span id="twikoo_visitors" title="访问量"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为Austin,Texas"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>Austin,Texas</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/"><header><a class="post-meta-categories" href="/categories/Linux/" itemprop="url">Linux</a><a href="/tags/linux/" tabindex="-1" itemprop="url">linux</a><h1 id="CrawlerTitle" itemprop="name headline">如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Bin Lian</span><time itemprop="dateCreated datePublished" datetime="2024-02-23T03:21:08.000Z" title="Created 2024-02-22 21:21:08">2024-02-22</time><time itemprop="dateCreated datePublished" datetime="2025-01-06T07:38:02.305Z" title="Updated 2025-01-06 01:38:02">2025-01-06</time></header><blockquote>
+<p>关键是 在绝对路径命令面前加上&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;ld-2.28.so 即手动预加载libc文件，然后基本上的命令都可以用</p>
+</blockquote>
+<h3 id="一，unlink-了-其中一个文件，而且你恰好开着终端并且挂着su"><a href="#一，unlink-了-其中一个文件，而且你恰好开着终端并且挂着su" class="headerlink" title="一，unlink 了 其中一个文件，而且你恰好开着终端并且挂着su"></a>一，unlink 了 其中一个文件，而且你恰好开着终端并且挂着su</h3><p><em><strong>Okk  你基本没啥大问题，别退该终端就行</strong></em></p>
+<p>现在先喘口气喝口水，这是最佳情况，这个时候嘞</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（root@cname）$/lib/x86_64-linux-gnu/ld-2.28.so /bin/ln -s /lib/x86_64-linux-gnu/ld-2.28.so /lib64/ld-linux-x86-64.so.2</span><br><span class="line"><span class="comment">## 给人家正常挂回去就行了，注意我们刚开始要预先加载 glibc 文件</span></span><br></pre></td></tr></table></figure>
+<p>回车， 哦了</p>
+<p>对于具体libc 文件在你系统是什么就看你系统了， 一般是ld-linux-x86-64.so.2 或者 libc.so.6 链接着的那个文件</p>
+<h2 id="二，-普通用户情况下，没挂su"><a href="#二，-普通用户情况下，没挂su" class="headerlink" title="二， 普通用户情况下，没挂su"></a>二， 普通用户情况下，没挂su</h2><p><em><strong>okk，抽卡环节，就看你平常用不用su了</strong></em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">（root@cname）$/lib/x86_64-linux-gnu/ld-2.28.so /bin/su</span><br><span class="line"><span class="comment">## 给人家正常挂回去就行了，注意我们刚开始要预先加载 glibc 文件</span></span><br></pre></td></tr></table></figure>
+
+<p>正常挂su，输入密码看看行不行</p>
+<ul>
+<li>验证成功的话，回到步骤一 结束</li>
+<li>验证失败 往下看 （一般是鉴定故障）<ul>
+<li>sudo 应该用不了会报错，就不用试了</li>
+</ul>
+</li>
+</ul>
+<h2 id="三，整个lib都删了，或者一二解决不了的，只好上大杀器，用live-cd-救一救"><a href="#三，整个lib都删了，或者一二解决不了的，只好上大杀器，用live-cd-救一救" class="headerlink" title="三，整个lib都删了，或者一二解决不了的，只好上大杀器，用live cd 救一救"></a>三，整个lib都删了，或者一二解决不了的，只好上大杀器，用live cd 救一救</h2><h4 id="不要慌-不麻烦"><a href="#不要慌-不麻烦" class="headerlink" title="不要慌 不麻烦"></a>不要慌 不麻烦</h4><ol>
+<li>先准备个u盘 能装下系统镜像的</li>
+<li>随便找个带live 的linux镜像（如果不是删了整个库这个级别的话，如果是，下完全一样的系统镜像），推荐用 ubantu的镜像，好下到，自己带了live 功能，方便</li>
+<li>用随便的启动盘制造工具 把镜像烧进去</li>
+<li>烧好了，进bios 换一下启动项，给u盘排第一</li>
+<li>try or install ubantu 点try ubantu</li>
+</ol>
+<p>好了，你现在应该已经可以用 ubantu系统了</p>
+<p>然后我们恢复软件要把地址挂对，不然开机照样就是一个 kernel panic! 所以要把装我们系统的硬盘暂时挂成root，步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br><span class="line"><span class="comment">###找一下你放系统的那个盘</span></span><br></pre></td></tr></table></figure>
+<p>假如你的盘叫sda4，地址为&#x2F;dev&#x2F;sda4, 接下来mount 到锚点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount /dev/sda4 /mnt/</span><br></pre></td></tr></table></figure>
+<p>切换一下root 到该目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chroot</span> /mnt</span><br></pre></td></tr></table></figure>
+<p>好，这个时候你应该变成在该目录的root 用户了，回到步骤1 结束</p>
+<p><strong>强调一下，不要直接在&#x2F;media&#x2F;&lt;你的盘的id&gt;&#x2F;lib中操作，这样建立出来的链接地址人家读不懂，开机继续kernel panic</strong></p>
+<h3 id="四，丢失了文件"><a href="#四，丢失了文件" class="headerlink" title="四，丢失了文件"></a>四，丢失了文件</h3><p>参考三 但是镜像用完全相同系统的<strong>live镜像</strong>，有些系统ubantu就集成了所以下原始镜像也可以</p>
+<p>然后把丢失的文件全部 cp到你丢的地方，就结束</p>
+<p>okk，希望你的系统已经回来了，cheers！</p>
+<p>无关的科普：<br>libc.so.6是c运行时库glibc的软链接，而系统几乎所有程序都依赖C运行时库。程序启动和运行时，是根据libc.so.6软链接找到glibc库。</p>
+<p>删除libc.so.6将导致系统的几乎所有程序不能工作。</p>
+<p>每个glibc.so文件有它支持的libc版本，可以通过 strings &#x2F;lib64&#x2F;libc.so.6|grepαGLIBC_查看，一定要选择这条命令列出的版本。如</p>
+<p>果程序编译的时候链接的libc库版本不在程序运行环境下的glibc库支持的libc版本之内，也会报错。于是，系统的所有命令 IS,Cp,cd等等都</p>
+<p>无法使用了。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Bin Lian</div><div class="post-copyright__author_desc">I think, therefore I am.</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/')">如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者｜Support the author"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>Support Me</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量｜Thank you for your support！</span><ul class="reward-group"><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/67738f609ac4d.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738f609ac4d.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/67738f5e864b9.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738f5e864b9.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="https://buymeacoffee.com/bin_lian" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/677391ee18dba.png" alt="Buy me A coffee"/></a><div class="post-qr-code-desc">Buy me A coffee</div></li><li class="reward-item"><a href="https://lskypro.bin-lian.me/i/2024/12/31/6773928a646a1.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/6773928a646a1.jpg" alt="Paypal"/></a><div class="post-qr-code-desc">Paypal</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单｜List of supporters</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=如何紧急修复，当你在linux中干穿了libc丢了libc.so.6,ld-linux-x86-64.so.2其中一个&amp;url=http://example.com/2024/02/22/%E5%A6%82%E4%BD%95%E7%B4%A7%E6%80%A5%E4%BF%AE%E5%A4%8D%EF%BC%8C%E5%BD%93%E4%BD%A0%E5%9C%A8linux%E4%B8%AD%E5%B9%B2%E7%A9%BF%E4%BA%86libc%E4%B8%A2%E4%BA%86libc.so.6,ld-linux-x86-64.so.2%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/linux/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>linux<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://lskypro.bin-lian.me/i/2025/01/01/6774b6cea2148.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/17/hexo_%E4%BC%98%E5%8C%96%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E4%BD%BF%E7%94%A8%20hexo-image-link/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2025/01/01/6774a351addd4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">hexo_优化图片插入使用 hexo-image-link</div></div></a></div><div class="next-post pull-right"><a href="/2024/12/27/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AE%BA%E8%AF%AD%E7%AC%AC%E4%B8%80--%E5%AD%A6%E8%80%8C/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">论语第一--学而</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> Comment</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2021/01/15/4129a14cfebf8.jpg" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">This is home for my<b style="color:#fff"> Projects, views, experiences</b>  of course<b style="color:#fff"> Music and Hobby</b><b style="color:#fff"></b>。</div>一起分享对世界的<div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);"><b style="color:#fff"></b>看法<b style="color:#fff">感悟</b>。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Bin Lian</h1><div class="author-info__desc">I think, therefore I am.</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/KIllerLB-USTC/" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/22893183" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a><a class="social-icon faa-parent animated-hover" href="https://www.linkedin.com/in/jakie-2843041bb" target="_blank" title="LinkedIn"><i class="fab fa-linkedin faa-tada"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%8Cunlink-%E4%BA%86-%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%8C%E8%80%8C%E4%B8%94%E4%BD%A0%E6%81%B0%E5%A5%BD%E5%BC%80%E7%9D%80%E7%BB%88%E7%AB%AF%E5%B9%B6%E4%B8%94%E6%8C%82%E7%9D%80su"><span class="toc-number">1.</span> <span class="toc-text">一，unlink 了 其中一个文件，而且你恰好开着终端并且挂着su</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%EF%BC%8C-%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%B2%A1%E6%8C%82su"><span class="toc-number"></span> <span class="toc-text">二， 普通用户情况下，没挂su</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%EF%BC%8C%E6%95%B4%E4%B8%AAlib%E9%83%BD%E5%88%A0%E4%BA%86%EF%BC%8C%E6%88%96%E8%80%85%E4%B8%80%E4%BA%8C%E8%A7%A3%E5%86%B3%E4%B8%8D%E4%BA%86%E7%9A%84%EF%BC%8C%E5%8F%AA%E5%A5%BD%E4%B8%8A%E5%A4%A7%E6%9D%80%E5%99%A8%EF%BC%8C%E7%94%A8live-cd-%E6%95%91%E4%B8%80%E6%95%91"><span class="toc-number"></span> <span class="toc-text">三，整个lib都删了，或者一二解决不了的，只好上大杀器，用live cd 救一救</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81%E6%85%8C-%E4%B8%8D%E9%BA%BB%E7%83%A6"><span class="toc-number">0.1.</span> <span class="toc-text">不要慌 不麻烦</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%EF%BC%8C%E4%B8%A2%E5%A4%B1%E4%BA%86%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">四，丢失了文件</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/06/hexo_frame/%E8%AE%B020241231%E7%9A%84%E4%BD%BF%E7%94%A8hexo%E6%A1%86%E6%9E%B6anzhiyu%E4%B8%BB%E9%A2%98blog%E9%87%8D%E5%BB%BA%E7%9A%84%E5%A4%A7%E7%BA%B2/" title="记20241231的blog重建"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2025/01/01/6774b6cea2148.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记20241231的blog重建"/></a><div class="content"><a class="title" href="/2025/01/06/hexo_frame/%E8%AE%B020241231%E7%9A%84%E4%BD%BF%E7%94%A8hexo%E6%A1%86%E6%9E%B6anzhiyu%E4%B8%BB%E9%A2%98blog%E9%87%8D%E5%BB%BA%E7%9A%84%E5%A4%A7%E7%BA%B2/" title="记20241231的blog重建">记20241231的blog重建</a><time datetime="2025-01-06T07:34:33.000Z" title="Created 2025-01-06 01:34:33">2025-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/06/hexo_frame/%E4%BD%BF%E7%94%A8cloudflare%20%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" title="使用cloudflare+域名 内网穿透"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/30/677254e32fdfa.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用cloudflare+域名 内网穿透"/></a><div class="content"><a class="title" href="/2025/01/06/hexo_frame/%E4%BD%BF%E7%94%A8cloudflare%20%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" title="使用cloudflare+域名 内网穿透">使用cloudflare+域名 内网穿透</a><time datetime="2025-01-06T07:34:04.000Z" title="Created 2025-01-06 01:34:04">2025-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/06/hexo_frame/%E5%9F%BA%E4%BA%8E%20Anzhiyu%E4%B8%BB%E9%A2%98%E7%9A%84%20%E6%9C%AC%E5%9C%B0%20twikoo%20%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8docker%20compose/" title="基于 Anzhiyu主题的 本地 twikoo 配置，使用docker compose"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2025/01/06/677b6ffdb32ee.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于 Anzhiyu主题的 本地 twikoo 配置，使用docker compose"/></a><div class="content"><a class="title" href="/2025/01/06/hexo_frame/%E5%9F%BA%E4%BA%8E%20Anzhiyu%E4%B8%BB%E9%A2%98%E7%9A%84%20%E6%9C%AC%E5%9C%B0%20twikoo%20%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8docker%20compose/" title="基于 Anzhiyu主题的 本地 twikoo 配置，使用docker compose">基于 Anzhiyu主题的 本地 twikoo 配置，使用docker compose</a><time datetime="2025-01-06T07:33:53.000Z" title="Created 2025-01-06 01:33:53">2025-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/06/hexo_frame/%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" title="图床搭建-基于本地docker 部署的兰空图床"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/677393fd15929.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图床搭建-基于本地docker 部署的兰空图床"/></a><div class="content"><a class="title" href="/2025/01/06/hexo_frame/%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" title="图床搭建-基于本地docker 部署的兰空图床">图床搭建-基于本地docker 部署的兰空图床</a><time datetime="2025-01-06T07:33:49.000Z" title="Created 2025-01-06 01:33:49">2025-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/06/hexo_frame/hexo_%E4%BC%98%E5%8C%96%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E4%BD%BF%E7%94%A8%20hexo-image-link/" title="hexo_优化图片插入使用 hexo-image-link">hexo_优化图片插入使用 hexo-image-link</a><time datetime="2025-01-06T07:31:47.000Z" title="Created 2025-01-06 01:31:47">2025-01-06</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2024 - 2025 By <a class="footer-bar-link" href="/" title="Bin Lian" target="_blank">Bin Lian</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="Theme AnZhiYu">Theme AnZhiYu</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">15</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">8</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">Website</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://www.bin-lian.me" title="My homepage"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/67738e9e3e093.png" alt="My homepage"/><span class="back-menu-item-text">My homepage</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">Front-end Project</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://lskypro.bin-lian.me/" title="Image Bed for Bin"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://lskypro.bin-lian.me/i/2024/12/31/677393fd15929.png" alt="Image Bed for Bin"/><span class="back-menu-item-text">Image Bed for Bin</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> Posts</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> Archives</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> Categories</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> About Me</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> About Me</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> Life News</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> Random Post</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> Personal</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> Music</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> Album</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/%E8%AE%BA%E8%AF%AD/" style="font-size: 0.88rem;">#论语<sup>1</sup></a><a href="/tags/AI-%E8%BE%85%E5%8A%A9%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">AI 辅助学习<sup>1</sup></a><a href="/tags/ProjChatGPT/" style="font-size: 0.88rem;">ProjChatGPT<sup>1</sup></a><a href="/tags/Projects/" style="font-size: 0.88rem;">Projects<sup>1</sup></a><a href="/tags/docker/" style="font-size: 0.88rem;">docker<sup>4</sup></a><a href="/tags/hexo/" style="font-size: 0.88rem;">hexo<sup>4</sup></a><a href="/tags/linux/" style="font-size: 0.88rem;">linux<sup>1</sup></a><a href="/tags/robotic/" style="font-size: 0.88rem;">robotic<sup>1</sup></a><a href="/tags/%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%A7%8B/" style="font-size: 0.88rem;">为什么开始<sup>1</sup></a><a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 0.88rem;">内网穿透<sup>1</sup></a><a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 0.88rem;">图床<sup>1</sup></a><a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 0.88rem;">小技巧<sup>1</sup></a><a href="/tags/%E6%8C%87%E5%BC%B9%E7%BB%83%E4%B9%A0/" style="font-size: 0.88rem;">指弹练习<sup>1</sup></a><a href="/tags/%E8%A7%85%E9%A3%9F%E8%AE%B0/" style="font-size: 0.88rem;">觅食记<sup>1</sup></a><a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 0.88rem;">读书笔记<sup>1</sup></a></div></div><hr/></div></div><div id="keyboard-tips"><div class="keyboardTitle">博客快捷键</div><div class="keybordList"><div class="keybordItem"><div class="keyGroup"><div class="key">shift K</div></div><div class="keyContent"><div class="content">关闭快捷键功能</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift A</div></div><div class="keyContent"><div class="content">打开/关闭中控台</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift M</div></div><div class="keyContent"><div class="content">播放/暂停音乐</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift D</div></div><div class="keyContent"><div class="content">深色/浅色显示模式</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift S</div></div><div class="keyContent"><div class="content">站内搜索</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift R</div></div><div class="keyContent"><div class="content">随机访问</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift H</div></div><div class="keyContent"><div class="content">返回首页</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift F</div></div><div class="keyContent"><div class="content">友链鱼塘</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift L</div></div><div class="keyContent"><div class="content">友链页面</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift P</div></div><div class="keyContent"><div class="content">关于本站</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift I</div></div><div class="keyContent"><div class="content">原版/本站右键菜单</div></div></div></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">play music</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/playlist?id=437998513&amp;userid=315226254&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("12/16/2024 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2024 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Bin Lian 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bin-lian.me/',
+      region: '',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bin-lian.me/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[image]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[link]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[code]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo.bin-lian.me/',
+        region: '',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "Unable to get the data, please make sure the settings are correct."
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += 'No Comment'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
